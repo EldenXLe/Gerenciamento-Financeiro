@@ -29,7 +29,7 @@ export default function Dashboard() {
 
       {/* Chart + Recent */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        <Card className="xl:col-span-2 p-5">
+        <Card className="xl:col-span-2 p-8">
           <div className="mb-6">
             <h3 className="font-bold text-base">Receitas vs Despesas</h3>
             <p className="text-xs text-[#55556a] mt-0.5">Últimos 6 meses</p>

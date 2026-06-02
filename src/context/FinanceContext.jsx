@@ -37,6 +37,32 @@ export function FinanceProvider({ children }) {
     toast.success('Transação removida!');
   }, [setTransactions]);
 
+  // Limpa todas as transações via estado (corrige bug do localStorage direto)
+  const clearTransactions = useCallback(() => {
+    setTransactions([]);
+    toast.success('Todos os dados foram removidos.');
+  }, [setTransactions]);
+
+  // Restaura dados mock via estado
+  const resetTransactions = useCallback(() => {
+    setTransactions(mockTransactions);
+    toast.success('Dados de demonstração restaurados!');
+  }, [setTransactions]);
+
+  // Importa transações evitando duplicatas por ID
+  const importTransactions = useCallback((incoming) => {
+    setTransactions(prev => {
+      const existingIds = new Set(prev.map(t => t.id));
+      const unique = incoming.filter(t => !existingIds.has(t.id));
+      if (unique.length === 0) {
+        toast('Nenhuma transação nova encontrada.', { icon: 'ℹ️' });
+      } else {
+        toast.success(`${unique.length} transação(ões) importada(s)!`);
+      }
+      return [...unique, ...prev];
+    });
+  }, [setTransactions]);
+
   const login = useCallback((email, password) => {
     setLoading(true);
     return new Promise((resolve) => {
@@ -68,6 +94,9 @@ export function FinanceProvider({ children }) {
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    clearTransactions,
+    resetTransactions,
+    importTransactions,
     login,
     logout,
   };

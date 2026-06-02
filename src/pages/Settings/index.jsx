@@ -1,34 +1,30 @@
 import { useState } from 'react';
-import { FiUser, FiTrash2, FiSave, FiAlertTriangle } from 'react-icons/fi';
+import { FiUser, FiTrash2, FiSave, FiAlertTriangle, FiRefreshCw } from 'react-icons/fi';
 import { useFinance } from '../../hooks/useFinance';
 import Card from '../../components/Card';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import { mockTransactions } from '../../data/mockData';
+import Modal from '../../components/Modal';
 import toast from 'react-hot-toast';
 
 export default function Settings() {
-  const { user, logout, transactions } = useFinance();
+  const { user, logout, transactions, clearTransactions, resetTransactions } = useFinance();
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
+  const [confirmModal, setConfirmModal] = useState(null); // null | 'clear' | 'reset'
 
   const handleSave = (e) => {
     e.preventDefault();
     toast.success('Configurações salvas!');
   };
 
-  const handleClear = () => {
-    if (confirm('Isso irá remover TODOS os dados. Continuar?')) {
-      localStorage.removeItem('ff_transactions');
-      window.location.reload();
+  const handleConfirm = () => {
+    if (confirmModal === 'clear') {
+      clearTransactions();   // ← usa o Context, não localStorage direto
+    } else if (confirmModal === 'reset') {
+      resetTransactions();   // ← usa o Context, não localStorage direto
     }
-  };
-
-  const handleReset = () => {
-    if (confirm('Restaurar dados de demonstração?')) {
-      localStorage.setItem('ff_transactions', JSON.stringify(mockTransactions));
-      window.location.reload();
-    }
+    setConfirmModal(null);
   };
 
   return (
@@ -36,7 +32,9 @@ export default function Settings() {
       {/* Profile */}
       <Card className="p-8">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 rounded-xl bg-[#7c5af020]"><FiUser size={18} className="text-[#7c5af0]" /></div>
+          <div className="p-2 rounded-xl bg-[#7c5af020]">
+            <FiUser size={18} className="text-[#7c5af0]" />
+          </div>
           <h3 className="font-bold">Perfil</h3>
         </div>
         <form onSubmit={handleSave} className="space-y-4">
@@ -76,23 +74,29 @@ export default function Settings() {
       {/* Danger zone */}
       <Card className="p-8 border-[#f05a5a20]">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-xl bg-[#f05a5a20]"><FiAlertTriangle size={18} className="text-[#f05a5a]" /></div>
+          <div className="p-2 rounded-xl bg-[#f05a5a20]">
+            <FiAlertTriangle size={18} className="text-[#f05a5a]" />
+          </div>
           <h3 className="font-bold text-[#f05a5a]">Zona de Perigo</h3>
         </div>
         <div className="space-y-3">
           <div className="flex items-center justify-between p-4 rounded-xl bg-[#f05a5a08] border border-[#f05a5a15]">
             <div>
               <p className="text-sm font-medium">Restaurar dados demo</p>
-              <p className="text-xs text-[#55556a]">Volta aos dados de exemplo</p>
+              <p className="text-xs text-[#55556a]">Volta aos dados de exemplo originais</p>
             </div>
-            <Button variant="secondary" size="sm" onClick={handleReset}>Restaurar</Button>
+            <Button variant="secondary" size="sm" icon={FiRefreshCw} onClick={() => setConfirmModal('reset')}>
+              Restaurar
+            </Button>
           </div>
           <div className="flex items-center justify-between p-4 rounded-xl bg-[#f05a5a08] border border-[#f05a5a15]">
             <div>
               <p className="text-sm font-medium">Limpar todos os dados</p>
               <p className="text-xs text-[#55556a]">Remove todas as transações permanentemente</p>
             </div>
-            <Button variant="danger" size="sm" icon={FiTrash2} onClick={handleClear}>Limpar</Button>
+            <Button variant="danger" size="sm" icon={FiTrash2} onClick={() => setConfirmModal('clear')}>
+              Limpar
+            </Button>
           </div>
           <div className="flex items-center justify-between p-4 rounded-xl bg-[#f05a5a08] border border-[#f05a5a15]">
             <div>
@@ -103,6 +107,29 @@ export default function Settings() {
           </div>
         </div>
       </Card>
+
+      {/* Confirmation Modal */}
+      <Modal
+        isOpen={!!confirmModal}
+        onClose={() => setConfirmModal(null)}
+        title={confirmModal === 'clear' ? 'Limpar todos os dados' : 'Restaurar dados demo'}
+        size="sm"
+      >
+        <p className="text-sm text-[#8888a8] mb-6">
+          {confirmModal === 'clear'
+            ? 'Todas as transações serão removidas permanentemente. Esta ação não pode ser desfeita.'
+            : 'Os dados atuais serão substituídos pelos dados de demonstração. Continuar?'
+          }
+        </p>
+        <div className="flex gap-3">
+          <Button variant="secondary" className="flex-1" onClick={() => setConfirmModal(null)}>
+            Cancelar
+          </Button>
+          <Button variant="danger" className="flex-1" onClick={handleConfirm}>
+            {confirmModal === 'clear' ? 'Limpar tudo' : 'Restaurar'}
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

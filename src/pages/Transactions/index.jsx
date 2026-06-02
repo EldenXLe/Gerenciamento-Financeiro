@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiPlus, FiSearch, FiEdit2, FiTrash2, FiDownload, FiFilter, FiX } from 'react-icons/fi';
+import { FiPlus, FiSearch, FiEdit2, FiTrash2, FiDownload, FiFilter, FiX, FiUpload } from 'react-icons/fi';
 import { useFilteredTransactions, useFinance } from '../../hooks/useFinance';
 import { CATEGORIES, TRANSACTION_TYPES, getCategoryById } from '../../constants/categories';
 import { Table, Pagination } from '../../components/Table';
@@ -8,6 +8,7 @@ import Modal from '../../components/Modal';
 import Input, { Select } from '../../components/Input';
 import Card from '../../components/Card';
 import TransactionForm from './TransactionForm';
+import ImportModal from './ImportModal';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { formatDate } from '../../utils/formatDate';
 import { exportToCSV } from '../../utils/calculations';
@@ -15,7 +16,7 @@ import { exportToCSV } from '../../utils/calculations';
 export default function Transactions() {
   const { deleteTransaction, transactions } = useFinance();
   const { paginated, filters, updateFilter, resetFilters, page, setPage, totalPages, total } = useFilteredTransactions();
-  const [modal, setModal] = useState(null); // null | 'add' | { edit: tx } | { confirm: id }
+  const [modal, setModal] = useState(null); // null | 'add' | 'import' | { edit: tx } | { confirm: id }
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const hasFilters = Object.values(filters).some(Boolean);
@@ -84,10 +85,17 @@ export default function Transactions() {
             value={filters.search} onChange={e => updateFilter('search', e.target.value)} />
         </div>
         <Button variant="secondary" icon={FiFilter} onClick={() => setFiltersOpen(!filtersOpen)}>
-          Filtros {hasFilters && <span className="ml-1 w-4 h-4 rounded-full bg-[#7c5af0] text-white text-xs flex items-center justify-center">{Object.values(filters).filter(Boolean).length}</span>}
+          Filtros {hasFilters && (
+            <span className="ml-1 w-4 h-4 rounded-full bg-[#7c5af0] text-white text-xs flex items-center justify-center">
+              {Object.values(filters).filter(Boolean).length}
+            </span>
+          )}
         </Button>
         <Button variant="secondary" icon={FiDownload} onClick={() => exportToCSV(transactions)}>
           CSV
+        </Button>
+        <Button variant="secondary" icon={FiUpload} onClick={() => setModal('import')}>
+          Importar
         </Button>
         <Button icon={FiPlus} onClick={() => setModal('add')}>
           Nova Transação
@@ -96,7 +104,7 @@ export default function Transactions() {
 
       {/* Filters panel */}
       {filtersOpen && (
-        <Card className="p-8">
+        <Card className="p-4">
           <div className="flex flex-wrap gap-3 items-end">
             <Select label="Tipo" value={filters.type} onChange={e => updateFilter('type', e.target.value)} className="w-36">
               <option value="">Todos</option>
@@ -133,6 +141,9 @@ export default function Transactions() {
         <TransactionForm onClose={() => setModal(null)} />
       </Modal>
 
+      {/* Import Modal */}
+      <ImportModal isOpen={modal === 'import'} onClose={() => setModal(null)} />
+
       {/* Edit Modal */}
       <Modal isOpen={!!modal?.edit} onClose={() => setModal(null)} title="Editar Transação">
         {modal?.edit && <TransactionForm transaction={modal.edit} onClose={() => setModal(null)} />}
@@ -140,7 +151,9 @@ export default function Transactions() {
 
       {/* Confirm Delete */}
       <Modal isOpen={!!modal?.confirm} onClose={() => setModal(null)} title="Excluir Transação" size="sm">
-        <p className="text-sm text-[#8888a8] mb-6">Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita.</p>
+        <p className="text-sm text-[#8888a8] mb-6">
+          Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita.
+        </p>
         <div className="flex gap-3">
           <Button variant="secondary" className="flex-1" onClick={() => setModal(null)}>Cancelar</Button>
           <Button variant="danger" className="flex-1"
