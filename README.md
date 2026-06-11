@@ -57,7 +57,7 @@
 
 ```bash
 # Clone o repositório
-git clone https://github.com/SEU_USUARIO/financeflow.git
+git clone https://github.com/EldenXLe/financeflow.git
 
 # Entre na pasta
 cd financeflow
