@@ -13,11 +13,14 @@ export default function Reports() {
   const { byMonth, byCategory } = useChartData();
   const [view, setView] = useState('bar');
 
+  // Normaliza data para YYYY-MM-DD independente do formato (ISO completo ou só data)
+  const toDateStr = (t) => (t.date || '').substring(0, 10);
+
   const currentMonth = new Date().toISOString().substring(0, 7);
-  const thisMonth = transactions.filter(t => t.date.startsWith(currentMonth));
+  const thisMonth = transactions.filter(t => toDateStr(t).startsWith(currentMonth));
   const lastMonth = transactions.filter(t => {
     const d = new Date(); d.setMonth(d.getMonth() - 1);
-    return t.date.startsWith(d.toISOString().substring(0, 7));
+    return toDateStr(t).startsWith(d.toISOString().substring(0, 7));
   });
 
   const comparison = useMemo(() => {
@@ -31,11 +34,11 @@ export default function Reports() {
   const catData = useMemo(() => {
     return CATEGORIES.map(cat => {
       const exp = transactions.filter(t => t.type === 'expense' && t.category === cat.id);
-      const inc = transactions.filter(t => t.type === 'income' && t.category === cat.id);
+      const inc = transactions.filter(t => t.type === 'income'  && t.category === cat.id);
       return {
         ...cat,
-        expenses: exp.reduce((a, t) => a + t.amount, 0),
-        incomes: inc.reduce((a, t) => a + t.amount, 0),
+        expenses: exp.reduce((a, t) => a + Number(t.amount), 0),
+        incomes:  inc.reduce((a, t) => a + Number(t.amount), 0),
         count: exp.length + inc.length,
       };
     }).filter(c => c.count > 0);

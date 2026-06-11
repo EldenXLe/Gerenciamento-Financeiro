@@ -14,8 +14,9 @@ const empty = {
 export default function TransactionForm({ transaction, onClose }) {
   const { addTransaction, updateTransaction } = useFinance();
   const [form, setForm] = useState(transaction ? {
-    ...transaction, amount: transaction.amount.toString(),
-    date: transaction.date
+    ...transaction,
+    amount: Number(transaction.amount).toString(),
+    date: (transaction.date || '').substring(0, 10), // normaliza ISO → YYYY-MM-DD
   } : empty);
   const [errors, setErrors] = useState({});
 

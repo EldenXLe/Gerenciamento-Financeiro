@@ -71,7 +71,7 @@ function CategorySummary({ transactions }) {
   const byCategory = useMemo(() => {
     return CATEGORIES.map(cat => {
       const items = transactions.filter(t => t.category === cat.id);
-      const total = items.reduce((a, t) => a + t.amount, 0);
+      const total = items.reduce((a, t) => a + Number(t.amount), 0);
       return { ...cat, total, count: items.length };
     }).filter(c => c.count > 0).sort((a, b) => b.total - a.total);
   }, [transactions]);

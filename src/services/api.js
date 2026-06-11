@@ -1,9 +1,11 @@
+// Axios configurado e pronto para integração com backend
+// Na versão atual o app usa LocalStorage — esta instância
+// está preparada para quando um backend real for conectado.
 import axios from 'axios';
 
-// Axios instance configured — ready for real backend integration
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://api.financeflow.app',
-  timeout: 10000,
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3333',
+  timeout: 15000,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -12,16 +14,5 @@ api.interceptors.request.use((config) => {
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
-
-api.interceptors.response.use(
-  (res) => res,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('ff_auth');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
 
 export default api;
