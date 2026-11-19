@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import { createContext, useContext, useCallback, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -9,7 +9,7 @@ const FinanceContext = createContext(null);
 
 export function FinanceProvider({ children }) {
   const [transactions, setTransactions] = useLocalStorage('ff_transactions', mockTransactions);
-  const [categories,   setCategories]   = useLocalStorage('ff_categories',   []);
+  const [categories] = useLocalStorage('ff_categories',   []);
 
   const summary = useMemo(() => ({
     balance:  calcBalance(transactions),
@@ -47,19 +47,17 @@ export function FinanceProvider({ children }) {
   }, [setTransactions]);
 
   const importTransactions = useCallback((incoming) => {
-    setTransactions(prev => {
-      const existingIds = new Set(prev.map(t => t.id));
-      const unique = incoming.filter(t => !existingIds.has(t.id));
-      if (unique.length === 0) {
-        toast('Nenhuma transação nova encontrada.', { icon: 'ℹ️' });
-      } else {
-        toast.success(`${unique.length} transação(ões) importada(s)!`);
-      }
-      return [...unique, ...prev];
-    });
+    const existingIds = new Set(transactions.map(t => t.id));
+    const unique = incoming.filter(t => !existingIds.has(t.id));
+    if (unique.length === 0) {
+      toast('Nenhuma transação nova encontrada.', { icon: 'ℹ️' });
+    } else {
+      setTransactions(prev => [...unique, ...prev]);
+      toast.success(`${unique.length} transação(ões) importada(s)!`);
+    }
     // Retorna estrutura compatível com o ImportModal
-    return Promise.resolve({ imported: 0, preview: [] });
-  }, [setTransactions]);
+    return Promise.resolve({ imported: unique.length, preview: [] });
+  }, [transactions, setTransactions]);
 
   return (
     <FinanceContext.Provider value={{
