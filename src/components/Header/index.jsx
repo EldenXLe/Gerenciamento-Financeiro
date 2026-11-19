@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiBell, FiMenu, FiX, FiSearch } from 'react-icons/fi';
+import { FiBell, FiMenu, FiX } from 'react-icons/fi';
 import Sidebar from '../Sidebar';
 
 export default function Header({ title, subtitle }) {

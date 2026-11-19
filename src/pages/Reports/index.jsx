@@ -5,8 +5,8 @@ import { useChartData } from '../../hooks/useFinance';
 import Card from '../../components/Card';
 import { BarChartComponent, LineChartComponent, PieChartComponent } from '../../components/Charts';
 import { formatCurrency } from '../../utils/formatCurrency';
-import { getCategoryById, CATEGORIES } from '../../constants/categories';
-import { groupByCategory, calcIncomes, calcExpenses } from '../../utils/calculations';
+import { CATEGORIES } from '../../constants/categories';
+import { calcIncomes, calcExpenses } from '../../utils/calculations';
 
 export default function Reports() {
   const { transactions } = useFinance();

@@ -30,9 +30,9 @@ export function AuthProvider({ children }) {
         setLoading(false);
       }, 800);
     });
-  }, []);
+  }, [setUser, setIsAuthenticated]);
 
-  const register = useCallback(async ({ name, email, password }) => {
+  const register = useCallback(async ({ name, email }) => {
     setLoading(true);
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -44,13 +44,13 @@ export function AuthProvider({ children }) {
         setLoading(false);
       }, 800);
     });
-  }, []);
+  }, [setUser, setIsAuthenticated]);
 
   const logout = useCallback(() => {
     setIsAuthenticated(false);
     setUser(null);
     toast('Até logo!', { icon: '👋' });
-  }, []);
+  }, [setUser, setIsAuthenticated]);
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated, loading, initializing: false, login, register, logout }}>

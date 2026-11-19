@@ -173,7 +173,7 @@ export function parsePDFText(text) {
 
   // Padrão comum em extratos: DATA  DESCRIÇÃO  VALOR
   // Ex: "15/05/2025  Supermercado Extra  -620,00"
-  const pattern = /(\d{2}[\/\-]\d{2}[\/\-]\d{4})\s+(.+?)\s+([-+]?\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2}))/;
+  const pattern = /(\d{2}[/-]\d{2}[/-]\d{4})\s+(.+?)\s+([-+]?\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2}))/;
 
   for (const line of lines) {
     const match = line.match(pattern);
