@@ -31,7 +31,7 @@ export default function Sidebar({ onClose }) {
 
       {/* Balance */}
       <div className="mx-4 mt-5 p-4 rounded-2xl bg-gradient-to-br from-[#7c5af020] to-[#7c5af008] border border-[#7c5af030]">
-        <p className="text-xs text-[#8888a8] mb-1">Saldo Total</p>
+        <p className="text-xs text-[#a3a8ba] mb-1">Saldo Total</p>
         <p className={`text-xl font-bold ${summary.balance >= 0 ? 'text-[#10d97a]' : 'text-[#f05a5a]'}`}>
           {formatCurrency(summary.balance)}
         </p>
@@ -46,12 +46,12 @@ export default function Sidebar({ onClose }) {
               transition-all duration-200 group
               ${isActive
                 ? 'bg-[#7c5af020] text-[#9b7af5] border border-[#7c5af030]'
-                : 'text-[#8888a8] hover:text-[#f0f0f8] hover:bg-[#ffffff08]'
+                : 'text-[#a3a8ba] hover:text-[#f0f0f8] hover:bg-[#ffffff08]'
               }
             `}>
             {({ isActive }) => (
               <>
-                <Icon size={17} className={isActive ? 'text-[#9b7af5]' : 'text-[#55556a] group-hover:text-[#8888a8]'} />
+                <Icon size={17} className={isActive ? 'text-[#9b7af5]' : 'text-[#80859a] group-hover:text-[#a3a8ba]'} />
                 {label}
                 {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#7c5af0]" />}
               </>
@@ -68,10 +68,10 @@ export default function Sidebar({ onClose }) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{user?.name}</p>
-            <p className="text-xs text-[#55556a] truncate">{user?.email}</p>
+            <p className="text-xs text-[#80859a] truncate">{user?.email}</p>
           </div>
           <button onClick={logout}
-            className="p-1.5 rounded-lg text-[#55556a] hover:text-[#f05a5a] transition-colors" title="Sair">
+            className="p-1.5 rounded-lg text-[#80859a] hover:text-[#f05a5a] transition-colors" title="Sair">
             <FiLogOut size={15} />
           </button>
         </div>

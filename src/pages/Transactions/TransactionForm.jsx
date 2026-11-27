@@ -43,16 +43,16 @@ export default function TransactionForm({ transaction, onClose }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Type toggle */}
-      <div className="flex rounded-xl overflow-hidden border border-[#ffffff10] p-1 gap-1">
+      <div className="grid grid-cols-2 sm:grid-cols-4 rounded-xl border border-[#ffffff10] p-1 gap-1">
         {TRANSACTION_TYPES.map(t => (
-          <button key={t.id} type="button"
-            onClick={() => set('type', t.id)}
-            className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
-              form.type === t.id
-                ? t.id === 'income'
-                  ? 'bg-[#10d97a20] text-[#10d97a]'
-                  : 'bg-[#f05a5a20] text-[#f05a5a]'
-                : 'text-[#55556a] hover:text-[#8888a8]'
+          <button key={t.id} type="button" aria-pressed={form.type === t.id}
+            onClick={() => setForm(p => ({
+              ...p, type: t.id,
+              category: ['investment', 'redemption'].includes(t.id) ? 'investments' : p.category,
+            }))}
+            style={form.type === t.id ? { background: t.color + '20', color: t.color } : undefined}
+            className={`py-2 text-sm font-medium rounded-lg transition-all ${
+              form.type === t.id ? '' : 'text-[#80859a] hover:text-[#a3a8ba]'
             }`}>{t.label}</button>
         ))}
       </div>

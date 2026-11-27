@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { FiTrendingUp, FiTrendingDown, FiDollarSign, FiActivity, FiArrowUpRight, FiArrowDownRight } from 'react-icons/fi';
+import { FiTrendingUp, FiTrendingDown, FiDollarSign, FiPieChart, FiArrowUpRight, FiArrowDownRight } from 'react-icons/fi';
 import { useFinance, useChartData } from '../../hooks/useFinance';
 import { StatCard } from '../../components/Card';
 import Card from '../../components/Card';
 import { BarChartComponent } from '../../components/Charts';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { formatDate } from '../../utils/formatDate';
-import { getCategoryById, CATEGORIES } from '../../constants/categories';
+import { getCategoryById, getTypeById, CATEGORIES } from '../../constants/categories';
 
 export default function Dashboard() {
   const { transactions, summary } = useFinance();
@@ -24,7 +24,7 @@ export default function Dashboard() {
           icon={FiDollarSign} color={summary.balance >= 0 ? '#10d97a' : '#f05a5a'} />
         <StatCard label="Receitas" value={formatCurrency(summary.incomes)} icon={FiTrendingUp} color="#10d97a" />
         <StatCard label="Despesas" value={formatCurrency(summary.expenses)} icon={FiTrendingDown} color="#f05a5a" />
-        <StatCard label="Transações" value={summary.count} icon={FiActivity} color="#7c5af0" />
+        <StatCard label="Investido" value={formatCurrency(summary.invested)} icon={FiPieChart} color="#7c5af0" />
       </div>
 
       {/* Chart + Recent */}
@@ -32,7 +32,7 @@ export default function Dashboard() {
         <Card className="xl:col-span-2 p-8">
           <div className="mb-6">
             <h3 className="font-bold text-base">Receitas vs Despesas</h3>
-            <p className="text-xs text-[#55556a] mt-0.5">Últimos 6 meses</p>
+            <p className="text-xs text-[#80859a] mt-0.5">Últimos 6 meses</p>
           </div>
           <BarChartComponent data={byMonth} />
         </Card>
@@ -42,18 +42,19 @@ export default function Dashboard() {
           <div className="space-y-3">
             {recent.map(t => {
               const cat = getCategoryById(t.category);
+              const type = getTypeById(t.type);
               return (
                 <div key={t.id} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: cat.bg, color: cat.color }}>
-                    {t.type === 'income' ? <FiArrowUpRight size={16} /> : <FiArrowDownRight size={16} />}
+                    {type.sign > 0 ? <FiArrowUpRight size={16} /> : <FiArrowDownRight size={16} />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{t.description}</p>
-                    <p className="text-xs text-[#55556a]">{formatDate(t.date)}</p>
+                    <p className="text-xs text-[#80859a]">{formatDate(t.date)}</p>
                   </div>
-                  <span className={`text-sm font-semibold flex-shrink-0 ${t.type === 'income' ? 'text-[#10d97a]' : 'text-[#f05a5a]'}`}>
-                    {t.type === 'income' ? '+' : '-'}{formatCurrency(t.amount)}
+                  <span className="text-sm font-semibold flex-shrink-0 tabular-nums" style={{ color: type.color }}>
+                    {type.sign > 0 ? '+' : '-'}{formatCurrency(t.amount)}
                   </span>
                 </div>
               );
@@ -86,7 +87,7 @@ function CategorySummary({ transactions }) {
             style={{ background: cat.bg + '30' }}>
             <div className="text-xs font-medium mb-1" style={{ color: cat.color }}>{cat.label}</div>
             <div className="text-base font-bold">{formatCurrency(cat.total)}</div>
-            <div className="text-xs text-[#55556a]">{cat.count} transações</div>
+            <div className="text-xs text-[#80859a]">{cat.count} transações</div>
           </div>
         ))}
       </div>
