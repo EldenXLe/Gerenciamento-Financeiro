@@ -5,17 +5,17 @@ import {
 import { formatCurrency } from '../../utils/formatCurrency';
 import { getCategoryById } from '../../constants/categories';
 
-const COLORS = ['#7c5af0','#10d97a','#f97316','#3b82f6','#ec4899','#f59e0b','#ef4444','#8888a8'];
+const COLORS = ['#7c5af0','#10d97a','#f97316','#3b82f6','#ec4899','#f59e0b','#ef4444','#a3a8ba'];
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-[#1c1c28] border border-[#ffffff10] rounded-xl p-3 shadow-xl text-sm">
-      {label && <p className="text-[#8888a8] text-xs mb-2">{label}</p>}
+      {label && <p className="text-[#a3a8ba] text-xs mb-2">{label}</p>}
       {payload.map((p, i) => (
         <div key={i} className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full" style={{ background: p.color }} />
-          <span className="text-[#8888a8]">{p.name}:</span>
+          <span className="text-[#a3a8ba]">{p.name}:</span>
           <span className="font-medium text-[#f0f0f8]">{formatCurrency(p.value)}</span>
         </div>
       ))}
@@ -28,12 +28,12 @@ export function BarChartComponent({ data }) {
     <ResponsiveContainer width="100%" height={260}>
       <BarChart data={data} barGap={6} barSize={20}>
         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff06" vertical={false} />
-        <XAxis dataKey="month" tick={{ fill: '#55556a', fontSize: 11 }} axisLine={false} tickLine={false} />
-        <YAxis tickFormatter={v => 'R$' + (v/1000).toFixed(0) + 'k'} tick={{ fill: '#55556a', fontSize: 11 }} axisLine={false} tickLine={false} />
+        <XAxis dataKey="month" tick={{ fill: '#80859a', fontSize: 11 }} axisLine={false} tickLine={false} />
+        <YAxis tickFormatter={v => 'R$' + (v/1000).toFixed(0) + 'k'} tick={{ fill: '#80859a', fontSize: 11 }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: '12px', color: '#8888a8', paddingTop: '16px' }} />
+        <Legend wrapperStyle={{ fontSize: '12px', color: '#a3a8ba', paddingTop: '16px' }} />
         <Bar dataKey="Receitas" fill="#10d97a" radius={[6,6,0,0]} />
-        <Bar dataKey="Despesas" fill="#7c5af0" radius={[6,6,0,0]} />
+        <Bar dataKey="Despesas" fill="#f05a5a" radius={[6,6,0,0]} />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -44,11 +44,11 @@ export function LineChartComponent({ data }) {
     <ResponsiveContainer width="100%" height={200}>
       <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff06" vertical={false} />
-        <XAxis dataKey="month" tick={{ fill: '#55556a', fontSize: 11 }} axisLine={false} tickLine={false} />
-        <YAxis tickFormatter={v => 'R$' + (v/1000).toFixed(0) + 'k'} tick={{ fill: '#55556a', fontSize: 11 }} axisLine={false} tickLine={false} />
+        <XAxis dataKey="month" tick={{ fill: '#80859a', fontSize: 11 }} axisLine={false} tickLine={false} />
+        <YAxis tickFormatter={v => 'R$' + (v/1000).toFixed(0) + 'k'} tick={{ fill: '#80859a', fontSize: 11 }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
         <Line type="monotone" dataKey="Receitas" stroke="#10d97a" strokeWidth={2} dot={{ fill: '#10d97a', strokeWidth: 0, r: 4 }} />
-        <Line type="monotone" dataKey="Despesas" stroke="#7c5af0" strokeWidth={2} dot={{ fill: '#7c5af0', strokeWidth: 0, r: 4 }} />
+        <Line type="monotone" dataKey="Despesas" stroke="#f05a5a" strokeWidth={2} dot={{ fill: '#f05a5a', strokeWidth: 0, r: 4 }} />
       </LineChart>
     </ResponsiveContainer>
   );
@@ -76,7 +76,7 @@ export function PieChartComponent({ data }) {
           return (
             <div key={i} className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: COLORS[i % COLORS.length] }} />
-              <span className="text-xs text-[#8888a8] flex-1 truncate">{cat.label}</span>
+              <span className="text-xs text-[#a3a8ba] flex-1 truncate">{cat.label}</span>
               <span className="text-xs font-medium">{pct}%</span>
             </div>
           );

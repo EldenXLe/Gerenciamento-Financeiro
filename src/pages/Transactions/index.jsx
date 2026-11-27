@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FiPlus, FiSearch, FiEdit2, FiTrash2, FiDownload, FiFilter, FiX, FiUpload } from 'react-icons/fi';
 import { useFilteredTransactions, useFinance } from '../../hooks/useFinance';
-import { CATEGORIES, TRANSACTION_TYPES, getCategoryById } from '../../constants/categories';
+import { CATEGORIES, TRANSACTION_TYPES, getCategoryById, getTypeById } from '../../constants/categories';
 import { Table, Pagination } from '../../components/Table';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
@@ -34,41 +34,45 @@ export default function Transactions() {
             </div>
             <div>
               <p className="font-medium text-[#f0f0f8]">{v}</p>
-              <p className="text-xs text-[#55556a]">{cat.label}</p>
+              <p className="text-xs text-[#80859a]">{cat.label}</p>
             </div>
           </div>
         );
       }
     },
-    { key: 'date', label: 'Data', render: v => <span className="text-[#8888a8] text-xs">{formatDate(v)}</span> },
+    { key: 'date', label: 'Data', render: v => <span className="text-[#a3a8ba] text-xs">{formatDate(v)}</span> },
     {
       key: 'type', label: 'Tipo',
-      render: v => (
-        <span className={`text-xs font-medium px-2 py-1 rounded-lg ${
-          v === 'income' ? 'bg-[#10d97a20] text-[#10d97a]' : 'bg-[#7c5af020] text-[#9b7af5]'
-        }`}>
-          {v === 'income' ? 'Receita' : 'Despesa'}
-        </span>
-      )
+      render: v => {
+        const type = getTypeById(v);
+        return (
+          <span className="text-xs font-medium px-2 py-1 rounded-lg" style={{ background: type.color + '20', color: type.color }}>
+            {type.label}
+          </span>
+        );
+      }
     },
     {
       key: 'amount', label: 'Valor',
-      render: (v, row) => (
-        <span className={`font-semibold ${row.type === 'income' ? 'text-[#10d97a]' : 'text-[#f05a5a]'}`}>
-          {row.type === 'income' ? '+' : '-'}{formatCurrency(v)}
-        </span>
-      )
+      render: (v, row) => {
+        const type = getTypeById(row.type);
+        return (
+          <span className="font-semibold tabular-nums" style={{ color: type.color }}>
+            {type.sign > 0 ? '+' : '-'}{formatCurrency(v)}
+          </span>
+        );
+      }
     },
     {
       key: 'id', label: '',
       render: (id, row) => (
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button onClick={() => setModal({ edit: row })}
-            className="p-1.5 rounded-lg text-[#8888a8] hover:text-[#7c5af0] hover:bg-[#7c5af010] transition-colors">
+        <div className="flex items-center gap-1 lg:opacity-0 lg:group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+          <button onClick={() => setModal({ edit: row })} aria-label="Editar" title="Editar"
+            className="p-1.5 rounded-lg text-[#a3a8ba] hover:text-[#7c5af0] hover:bg-[#7c5af010] transition-colors">
             <FiEdit2 size={13} />
           </button>
-          <button onClick={() => setModal({ confirm: id })}
-            className="p-1.5 rounded-lg text-[#8888a8] hover:text-[#f05a5a] hover:bg-[#f05a5a10] transition-colors">
+          <button onClick={() => setModal({ confirm: id })} aria-label="Excluir" title="Excluir"
+            className="p-1.5 rounded-lg text-[#a3a8ba] hover:text-[#f05a5a] hover:bg-[#f05a5a10] transition-colors">
             <FiTrash2 size={13} />
           </button>
         </div>
@@ -130,7 +134,7 @@ export default function Transactions() {
       {/* Table */}
       <Card className="p-8">
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-[#55556a]">{total} transação{total !== 1 ? 's' : ''}</p>
+          <p className="text-sm text-[#80859a]">{total} transação{total !== 1 ? 's' : ''}</p>
         </div>
         <Table columns={columns} data={paginated} emptyMessage="Nenhuma transação encontrada." />
         <Pagination page={page} totalPages={totalPages} onPage={setPage} />
@@ -151,7 +155,7 @@ export default function Transactions() {
 
       {/* Confirm Delete */}
       <Modal isOpen={!!modal?.confirm} onClose={() => setModal(null)} title="Excluir Transação" size="sm">
-        <p className="text-sm text-[#8888a8] mb-6">
+        <p className="text-sm text-[#a3a8ba] mb-6">
           Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita.
         </p>
         <div className="flex gap-3">

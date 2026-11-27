@@ -27,12 +27,12 @@ export function StatCard({ label, value, icon: Icon, trend, color = '#7c5af0', l
       ) : (
         <>
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-[#8888a8] font-medium">{label}</span>
+            <span className="text-sm text-[#a3a8ba] font-medium">{label}</span>
             <div className="p-2 rounded-xl" style={{ background: color + '20' }}>
               <Icon size={18} style={{ color }} />
             </div>
           </div>
-          <div className="text-2xl font-bold" style={{ fontFamily: 'Syne, sans-serif' }}>{value}</div>
+          <div className="text-2xl font-bold" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{value}</div>
           {trend && (
             <div className={`mt-2 text-xs ${trend.positive ? 'text-[#10d97a]' : 'text-[#f05a5a]'}`}>
               {trend.positive ? '↑' : '↓'} {trend.label}
