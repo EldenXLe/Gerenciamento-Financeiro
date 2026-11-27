@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { FiX } from 'react-icons/fi';
 
 export default function Modal({ isOpen, onClose, title, children, size = 'md' }) {
@@ -12,7 +13,8 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
 
   const sizes = { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-lg', xl: 'max-w-3xl' };
 
-  return (
+  // Portal no body: o conteúdo da página tem transform (animação de entrada), que prenderia o "fixed" a ele.
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
@@ -31,8 +33,9 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
             <FiX size={16} />
           </button>
         </div>
-        <div className="p-6 max-h-[calc(100vh-8rem)] overflow-y-auto">{children}</div>
+        <div className="p-6 max-h-[calc(100dvh-8rem)] overflow-y-auto">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
