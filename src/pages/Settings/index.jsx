@@ -39,7 +39,7 @@ export default function Settings() {
             </div>
             <div>
               <p className="font-semibold">{user?.name}</p>
-              <p className="text-sm text-[#55556a]">{user?.email}</p>
+              <p className="text-sm text-[#80859a]">{user?.email}</p>
             </div>
           </div>
           <Input label="Nome" value={name} onChange={e => setName(e.target.value)} placeholder="Seu nome" />
@@ -58,7 +58,7 @@ export default function Settings() {
           ].map(([label, val]) => (
             <div key={label} className="p-3 rounded-xl bg-[#ffffff05] border border-[#ffffff08]">
               <p className="text-2xl font-bold text-[#7c5af0]">{val}</p>
-              <p className="text-xs text-[#55556a]">{label}</p>
+              <p className="text-xs text-[#80859a]">{label}</p>
             </div>
           ))}
         </div>
@@ -73,7 +73,7 @@ export default function Settings() {
           <div className="flex items-center justify-between p-4 rounded-xl bg-[#f05a5a08] border border-[#f05a5a15]">
             <div>
               <p className="text-sm font-medium">Restaurar dados demo</p>
-              <p className="text-xs text-[#55556a]">Volta aos dados de exemplo originais</p>
+              <p className="text-xs text-[#80859a]">Volta aos dados de exemplo originais</p>
             </div>
             <Button variant="secondary" size="sm" icon={FiRefreshCw} onClick={() => setConfirmModal('reset')}>
               Restaurar
@@ -82,7 +82,7 @@ export default function Settings() {
           <div className="flex items-center justify-between p-4 rounded-xl bg-[#f05a5a08] border border-[#f05a5a15]">
             <div>
               <p className="text-sm font-medium">Limpar todos os dados</p>
-              <p className="text-xs text-[#55556a]">Remove todas as transações permanentemente</p>
+              <p className="text-xs text-[#80859a]">Remove todas as transações permanentemente</p>
             </div>
             <Button variant="danger" size="sm" icon={FiTrash2} onClick={() => setConfirmModal('clear')}>
               Limpar
@@ -91,7 +91,7 @@ export default function Settings() {
           <div className="flex items-center justify-between p-4 rounded-xl bg-[#f05a5a08] border border-[#f05a5a15]">
             <div>
               <p className="text-sm font-medium">Sair da conta</p>
-              <p className="text-xs text-[#55556a]">Encerrar sessão atual</p>
+              <p className="text-xs text-[#80859a]">Encerrar sessão atual</p>
             </div>
             <Button variant="danger" size="sm" onClick={logout}>Sair</Button>
           </div>
@@ -100,7 +100,7 @@ export default function Settings() {
 
       <Modal isOpen={!!confirmModal} onClose={() => setConfirmModal(null)}
         title={confirmModal === 'clear' ? 'Limpar todos os dados' : 'Restaurar dados demo'} size="sm">
-        <p className="text-sm text-[#8888a8] mb-6">
+        <p className="text-sm text-[#a3a8ba] mb-6">
           {confirmModal === 'clear'
             ? 'Todas as transações serão removidas. Esta ação não pode ser desfeita.'
             : 'Os dados atuais serão substituídos pelos dados de demonstração. Continuar?'}

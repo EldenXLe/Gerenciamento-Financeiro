@@ -52,11 +52,11 @@ export default function Reports() {
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-xl bg-[#10d97a20]"><FiTrendingUp size={18} className="text-[#10d97a]" /></div>
             <div>
-              <p className="text-xs text-[#8888a8]">Receitas — Mês Atual</p>
+              <p className="text-xs text-[#a3a8ba]">Receitas — Mês Atual</p>
               <p className="text-xl font-bold text-[#10d97a]">{formatCurrency(comparison.curr.income)}</p>
             </div>
           </div>
-          <div className="text-xs text-[#55556a]">
+          <div className="text-xs text-[#80859a]">
             Mês anterior: {formatCurrency(comparison.prev.income)}
             {comparison.incomeDiff != 0 && (
               <span className={`ml-2 ${Number(comparison.incomeDiff) >= 0 ? 'text-[#10d97a]' : 'text-[#f05a5a]'}`}>
@@ -70,11 +70,11 @@ export default function Reports() {
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-xl bg-[#f05a5a20]"><FiTrendingDown size={18} className="text-[#f05a5a]" /></div>
             <div>
-              <p className="text-xs text-[#8888a8]">Despesas — Mês Atual</p>
+              <p className="text-xs text-[#a3a8ba]">Despesas — Mês Atual</p>
               <p className="text-xl font-bold text-[#f05a5a]">{formatCurrency(comparison.curr.expense)}</p>
             </div>
           </div>
-          <div className="text-xs text-[#55556a]">
+          <div className="text-xs text-[#80859a]">
             Mês anterior: {formatCurrency(comparison.prev.expense)}
             {comparison.expDiff != 0 && (
               <span className={`ml-2 ${Number(comparison.expDiff) <= 0 ? 'text-[#10d97a]' : 'text-[#f05a5a]'}`}>
@@ -93,7 +93,7 @@ export default function Reports() {
             {[['bar','Barras'],['line','Linhas']].map(([k, l]) => (
               <button key={k} onClick={() => setView(k)}
                 className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
-                  view === k ? 'bg-[#7c5af0] text-white' : 'text-[#55556a] hover:text-[#8888a8]'
+                  view === k ? 'bg-[#7c5af0] text-white' : 'text-[#80859a] hover:text-[#a3a8ba]'
                 }`}>{l}</button>
             ))}
           </div>
@@ -119,7 +119,7 @@ export default function Reports() {
                 <div key={cat.id}>
                   <div className="flex items-center justify-between text-sm mb-1">
                     <span className="font-medium" style={{ color: cat.color }}>{cat.label}</span>
-                    <span className="text-[#8888a8]">{formatCurrency(total)}</span>
+                    <span className="text-[#a3a8ba]">{formatCurrency(total)}</span>
                   </div>
                   <div className="h-1.5 bg-[#ffffff08] rounded-full overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-500"

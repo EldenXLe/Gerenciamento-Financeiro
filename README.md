@@ -20,7 +20,8 @@ Planilhas de gastos são trabalhosas de manter e difíceis de analisar. O Financ
 
 - **Dashboard:** saldo, receitas, despesas, gráfico dos últimos 6 meses e últimas transações.
 - **Transações (CRUD):** criar, editar e excluir, com filtros por tipo, categoria, período e busca por texto, e paginação.
-- **Importação de extratos OFX:** leitura do arquivo do banco, pré-visualização e categorização automática por palavras-chave, sem duplicar transações já existentes.
+- **Importação de extratos OFX:** leitura do arquivo do banco (OFX 1.x e 2.x, Windows-1252 ou UTF-8), revisão de cada movimentação e categorização automática, sem duplicar transações já existentes.
+- **Investimento, transferência e fatura:** na revisão, cada linha recebe um tipo — despesa, receita, investimento, resgate, transferência entre minhas contas ou pagamento de fatura. Investimentos ficam fora de receitas/despesas; transferências e faturas não entram, para o mesmo dinheiro não contar duas vezes. Correções viram regras aplicadas nos próximos extratos. Há um extrato de exemplo em `docs/extrato-exemplo.ofx`.
 - **Relatórios:** gráficos de barras, linhas e pizza por categoria, e comparação do mês atual com o anterior.
 - **Exportação para CSV.**
 - **Autenticação simulada** com rotas protegidas (login de demonstração abaixo).
@@ -79,6 +80,7 @@ Acesse `http://localhost:5173`.
 | `npm run build` | Build de produção em `dist/` |
 | `npm run preview` | Serve o build localmente |
 | `npm run lint` | Análise estática com ESLint |
+| `npm test` | Testes do leitor de OFX (node:test) |
 
 **Login de demonstração:** `alex@financeflow.app` / `123456`. Também é possível criar uma conta na tela de cadastro; os dados ficam só no navegador.
 
