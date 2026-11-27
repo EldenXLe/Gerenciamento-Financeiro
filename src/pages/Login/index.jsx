@@ -33,7 +33,7 @@ export default function Login() {
             <FiZap size={28} className="text-white" />
           </div>
           <h1 className="text-3xl font-bold mb-2">Finance<span className="text-[#7c5af0]">Flow</span></h1>
-          <p className="text-sm text-[#55556a]">Controle financeiro inteligente</p>
+          <p className="text-sm text-[#80859a]">Controle financeiro inteligente</p>
         </div>
 
         <div className="bg-[#16161f] border border-[#ffffff0f] rounded-2xl p-8 shadow-2xl">
@@ -48,7 +48,7 @@ export default function Login() {
                 value={form.password} onChange={e => set('password', e.target.value)}
                 placeholder="••••••" icon={FiLock} required />
               <button type="button" onClick={() => setShowPass(!showPass)}
-                className="mt-1 text-xs text-[#55556a] hover:text-[#8888a8] transition-colors flex items-center gap-1">
+                className="mt-1 text-xs text-[#80859a] hover:text-[#a3a8ba] transition-colors flex items-center gap-1">
                 {showPass ? <FiEyeOff size={12} /> : <FiEye size={12} />}
                 {showPass ? 'Ocultar senha' : 'Mostrar senha'}
               </button>
@@ -65,7 +65,7 @@ export default function Login() {
             </Button>
           </form>
 
-          <p className="text-center text-sm text-[#55556a] mt-6">
+          <p className="text-center text-sm text-[#80859a] mt-6">
             Não tem conta?{' '}
             <Link to="/register" className="text-[#7c5af0] hover:text-[#9b7af5] transition-colors font-medium">
               Criar conta

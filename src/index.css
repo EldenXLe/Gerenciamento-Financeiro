@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -13,8 +13,8 @@
   --green: #10d97a;
   --red: #f05a5a;
   --text-primary: #f0f0f8;
-  --text-secondary: #8888a8;
-  --text-muted: #55556a;
+  --text-secondary: #a3a8ba;
+  --text-muted: #80859a;
 }
 
 * { box-sizing: border-box; }
@@ -24,9 +24,12 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: 'Syne', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.01em; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }

@@ -11,7 +11,7 @@ export const mockTransactions = [
   { id: uuidv4(), description: 'Farmácia', amount: 145, type: 'expense', category: 'health', date: '2026-05-10', note: '' },
   { id: uuidv4(), description: 'Curso React', amount: 299, type: 'expense', category: 'education', date: '2026-05-11', note: 'Udemy' },
   { id: uuidv4(), description: 'Restaurante', amount: 210, type: 'expense', category: 'food', date: '2026-05-14', note: '' },
-  { id: uuidv4(), description: 'Aporte Tesouro Direto', amount: 500, type: 'expense', category: 'investments', date: '2026-05-16', note: '' },
+  { id: uuidv4(), description: 'Aporte Tesouro Direto', amount: 500, type: 'investment', category: 'investments', date: '2026-05-16', note: '' },
   { id: uuidv4(), description: 'Academia', amount: 120, type: 'expense', category: 'health', date: '2026-05-17', note: '' },
   { id: uuidv4(), description: 'Gasolina', amount: 200, type: 'expense', category: 'transport', date: '2026-05-19', note: '' },
   { id: uuidv4(), description: 'Show Banda', amount: 160, type: 'expense', category: 'leisure', date: '2026-05-20', note: '' },

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { mockTransactions } from '../data/mockData';
-import { calcBalance, calcIncomes, calcExpenses } from '../utils/calculations';
+import { calcBalance, calcIncomes, calcExpenses, calcInvested } from '../utils/calculations';
 
 const FinanceContext = createContext(null);
 
@@ -15,6 +15,7 @@ export function FinanceProvider({ children }) {
     balance:  calcBalance(transactions),
     incomes:  calcIncomes(transactions),
     expenses: calcExpenses(transactions),
+    invested: calcInvested(transactions),
     count:    transactions.length,
   }), [transactions]);
 

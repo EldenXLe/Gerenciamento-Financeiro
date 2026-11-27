@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 export function Table({ columns, data, loading = false, emptyMessage = 'Nenhum registro encontrado.' }) {
@@ -13,7 +14,7 @@ export function Table({ columns, data, loading = false, emptyMessage = 'Nenhum r
 
   if (!data.length) {
     return (
-      <div className="text-center py-16 text-[#55556a]">
+      <div className="text-center py-16 text-[#80859a]">
         <div className="text-4xl mb-3">📭</div>
         <p className="text-sm">{emptyMessage}</p>
       </div>
@@ -26,7 +27,7 @@ export function Table({ columns, data, loading = false, emptyMessage = 'Nenhum r
         <thead>
           <tr className="border-b border-[#ffffff08]">
             {columns.map(col => (
-              <th key={col.key} className="text-left text-xs font-medium text-[#55556a] uppercase tracking-wider px-4 py-3 first:pl-0 last:pr-0">
+              <th key={col.key} className="text-left text-xs font-medium text-[#80859a] uppercase tracking-wider px-4 py-3 first:pl-0 last:pr-0">
                 {col.label}
               </th>
             ))}
@@ -56,22 +57,22 @@ export function Pagination({ page, totalPages, onPage }) {
   return (
     <div className="flex items-center justify-center gap-1 mt-4">
       <button onClick={() => onPage(page - 1)} disabled={page === 1}
-        className="p-1.5 rounded-lg text-[#8888a8] hover:text-[#f0f0f8] disabled:opacity-30 transition-colors">
+        className="p-1.5 rounded-lg text-[#a3a8ba] hover:text-[#f0f0f8] disabled:opacity-30 transition-colors">
         <FiChevronLeft size={16} />
       </button>
       {visible.map((p, i, arr) => (
-        <>
-          {i > 0 && arr[i - 1] !== p - 1 && <span key={`e${p}`} className="text-[#55556a] text-xs px-1">…</span>}
-          <button key={p} onClick={() => onPage(p)}
+        <Fragment key={p}>
+          {i > 0 && arr[i - 1] !== p - 1 && <span className="text-[#80859a] text-xs px-1">…</span>}
+          <button onClick={() => onPage(p)}
             className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${
-              p === page ? 'bg-[#7c5af0] text-white' : 'text-[#8888a8] hover:text-[#f0f0f8] hover:bg-[#ffffff08]'
+              p === page ? 'bg-[#7c5af0] text-white' : 'text-[#a3a8ba] hover:text-[#f0f0f8] hover:bg-[#ffffff08]'
             }`}>
             {p}
           </button>
-        </>
+        </Fragment>
       ))}
       <button onClick={() => onPage(page + 1)} disabled={page === totalPages}
-        className="p-1.5 rounded-lg text-[#8888a8] hover:text-[#f0f0f8] disabled:opacity-30 transition-colors">
+        className="p-1.5 rounded-lg text-[#a3a8ba] hover:text-[#f0f0f8] disabled:opacity-30 transition-colors">
         <FiChevronRight size={16} />
       </button>
     </div>
